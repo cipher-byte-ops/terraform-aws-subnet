@@ -13,6 +13,8 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
+# Example VPC only; flow logs are out of scope for the subnet module example.
+#trivy:ignore:AWS-0178
 resource "aws_vpc" "example" {
   cidr_block = "10.0.0.0/16"
 }
