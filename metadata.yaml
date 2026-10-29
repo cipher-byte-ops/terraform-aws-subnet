@@ -1,0 +1,10 @@
+name: terraform-aws-subnet
+cloud: aws          # aws | google | common
+tier: primitive
+maturity: experimental
+description: Subnet in an existing VPC with an optional route table association
+owners: [platform]
+upstream: null            # e.g. "terraform-aws-modules/s3-bucket/aws 5.17.0"
+pairs_with: null          # e.g. "terraform-google-gcs-bucket"
+registry_name: terraform-aws-subnet
+deprecated: null          # { removal: YYYY-MM-DD, replacement: <repo> }
