@@ -13,10 +13,21 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
-# Example VPC only; flow logs are out of scope for the subnet module example.
-#trivy:ignore:AWS-0178
-resource "aws_vpc" "example" {
-  cidr_block = "10.0.0.0/16"
+module "vpc" {
+  source = "git::https://github.com/Olensys/terraform-aws-vpc.git?ref=v1.0.4"
+
+  name = "example"
+  context = {
+    organization = "olensys"
+    environment  = "test"
+    application  = "example"
+    owner        = "platform"
+    cost_center  = "eng"
+  }
+
+  cidr             = "10.0.0.0/16"
+  nat              = "none"
+  enable_flow_logs = true
 }
 
 module "this" {
@@ -31,7 +42,8 @@ module "this" {
     cost_center  = "eng"
   }
 
-  vpc_id            = aws_vpc.example.id
-  cidr_block        = "10.0.1.0/24"
+  vpc_id            = module.vpc.id
+  route_table_id    = module.vpc.private_route_table_ids[0]
+  cidr_block        = "10.0.200.0/24"
   availability_zone = data.aws_availability_zones.available.names[0]
 }
